@@ -7,6 +7,7 @@ on:
     branches: ['main']
 
 env:
+  AWS_ARN: ${{ secrets.AWS_ARN }}
   TF_VAR_AWS_ARN: ${{ secrets.AWS_ARN }}
   TF_VAR_REPO: ${{ secrets.REPO }}
 
@@ -36,7 +37,7 @@ jobs:
       - name: Configure AWS credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::${{ env.TF_VAR_AWS_ARN }}:role/GithubActionsRole
+          role-to-assume: arn:aws:iam::${{ env.AWS_ARN }}:role/GithubActionsRole
           aws-region: eu-west-1
 
       - name: Run tf init
