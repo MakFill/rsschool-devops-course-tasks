@@ -12,7 +12,7 @@ resource "aws_iam_role" "GithubActionsRole" {
         Action = "sts:AssumeRoleWithWebIdentity",
         Condition = {
           "StringEquals": {
-                "token.actions.githubusercontent.com:sub": "repo:${var.AWS_ARN}/rsschool-devops-course-tasks:ref:refs/heads/*"
+                "token.actions.githubusercontent.com:sub": "repo:${var.AWS_ARN}/rsschool-devops-course-tasks:*"
           }
         }
       }
