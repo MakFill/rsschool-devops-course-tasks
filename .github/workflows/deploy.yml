@@ -73,7 +73,7 @@ jobs:
       - name: Configure AWS credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::${{ env.AWS_ARN }}:role/GithubActionsRole
+          role-to-assume: arn:aws:iam::${{ env.AWS_ARN }}:role/AwsAssumeTFPolicy
           aws-region: eu-west-1
 
       - name: Run tf init
