@@ -63,5 +63,21 @@ jobs:
     needs: terraform-plan
 
     steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.6
+
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ env.AWS_ARN }}:role/GithubActionsRole
+          aws-region: eu-west-1
+
+      - name: Run tf init
+        run: terraform init
+
       - name: Run tf apply
         run: terraform apply
