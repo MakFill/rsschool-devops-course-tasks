@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: ['main']
 
+permissions:
+  id-token: write
+  contents: read
+
 env:
   AWS_ARN: ${{ secrets.AWS_ARN }}
   TF_VAR_AWS_ARN: ${{ secrets.AWS_ARN }}
