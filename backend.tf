@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket = var.bucket_name
+    bucket = "terraform-state-bucket-makfill"
     key    = "tf/state"
-    region = var.region
+    region = "eu-west-1"
   }
 }
