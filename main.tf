@@ -5,3 +5,7 @@ terraform {
     region = "eu-west-1"
   }
 }
+
+module "recources" {
+  source = "./modules/resources"
+}
