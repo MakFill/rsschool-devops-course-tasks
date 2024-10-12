@@ -69,6 +69,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ env.AWS_ARN }}:role/AwsAssumeTFPolicy
+          aws-region: eu-west-1
+
       - name: Restore terraform cache
         uses: actions/cache/restore@v4
         with:
@@ -86,6 +92,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ env.AWS_ARN }}:role/AwsAssumeTFPolicy
+          aws-region: eu-west-1
 
       - name: Restore terraform cache
         uses: actions/cache/restore@v4
