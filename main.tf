@@ -7,5 +7,8 @@ terraform {
 }
 
 module "recources" {
-  source = "./modules/resources"
+  source  = "./modules/resources"
+
+  AWS_ARN = var.AWS_ARN
+  REPO    = var.REPO
 }
