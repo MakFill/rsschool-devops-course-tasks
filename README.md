@@ -1,20 +1,3 @@
-# Terraform Backend Template with State Stored in AWS S3
-
-This template allows you to create an IAM policy and an S3 bucket via GitHub Actions.
-
-To use this template:
-
-1. Sign in to your AWS account.
-
-
-2. Manually create an S3 bucket for the state.
-
-
-3. Change `bucket_name` and `region` in the terraform.tfvars file accordingly.
-
-
-4. Add the `AWS_ARN` (your AWS ARN) and `REPO` (the name of your GitHub organization) as environment (security) variables.
-
 ## Creating Identity Provider (IdP) and Trust policies for GitHub Actions to access AWS
 
 - Create an Identity Provider in AWS IAM
@@ -33,8 +16,6 @@ To use this template:
 
   - Set the audience (optional): sts.amazonaws.com
 
-
-
 - Create a Role with Trust Policy
 
   - In IAM, select Roles and click Create role.
@@ -45,38 +26,37 @@ To use this template:
 
   - Enter the audience as sts.amazonaws.com.
 
-
   - Trust Policy: You’ll need to define a trust policy for this role that allows GitHub Actions to assume the role. Here’s an example of a basic trust policy:
+
 ```markdown
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Federated": "arn:aws:iam::<YOUR_ACCOUNT_ID>:oidc-provider/token.actions.githubusercontent.com"
-      },
-      "Action": "sts:AssumeRoleWithWebIdentity",
-      "Condition": {
-        "StringEquals": {
-          "token.actions.githubusercontent.com:sub": "repo:<YOUR_GITHUB_ORG>/<YOUR_REPO>:ref:refs/heads/<YOUR_BRANCH>"
-        }
-      }
-    }
-  ]
+"Version": "2012-10-17",
+"Statement": [
+{
+"Effect": "Allow",
+"Principal": {
+"Federated": "arn:aws:iam::<YOUR_ACCOUNT_ID>:oidc-provider/token.actions.githubusercontent.com"
+},
+"Action": "sts:AssumeRoleWithWebIdentity",
+"Condition": {
+"StringEquals": {
+"token.actions.githubusercontent.com:sub": "repo:<YOUR_GITHUB_ORG>/<YOUR_REPO>:ref:refs/heads/<YOUR_BRANCH>"
+}
+}
+}
+]
 }
 ```
-*Replace `<YOUR_ACCOUNT_ID>`, `<YOUR_GITHUB_ORG>`, `<YOUR_REPO>`, and `<YOUR_BRANCH>` with your specific values.*
 
-
+_Replace `<YOUR_ACCOUNT_ID>`, `<YOUR_GITHUB_ORG>`, `<YOUR_REPO>`, and `<YOUR_BRANCH>` with your specific values._
 
 - Attach Permissions Policy
-   - Define Permissions: Attach a permissions policy to the role that grants the necessary permissions for the actions your GitHub workflows will perform (e.g., access to S3, Lambda, etc.).
 
+  - Define Permissions: Attach a permissions policy to the role that grants the necessary permissions for the actions your GitHub workflows will perform (e.g., access to S3, Lambda, etc.).
 
 - Configure GitHub Actions Workflow
 
-    - In your GitHub Actions workflow file (e.g., .github/workflows/your-workflow.yml), use the aws-actions/configure-aws-credentials action to assume the role:
+  - In your GitHub Actions workflow file (e.g., .github/workflows/your-workflow.yml), use the aws-actions/configure-aws-credentials action to assume the role:
 
 ```
 jobs:
@@ -94,3 +74,4 @@ jobs:
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::<YOUR_ACCOUNT_ID>:role/<YOUR_ROLE_NAME>`
 
+```
