@@ -8,6 +8,11 @@ variable "REPO" {
   type        = string
 }
 
+variable "IP" {
+  type        = string
+  description = "Source IP for Bastion Host"
+}
+
 variable "region" {
   description = "AWS region"
   type        = string
