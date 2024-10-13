@@ -14,7 +14,7 @@ env:
   AWS_ARN: ${{ secrets.AWS_ARN }}
   TF_VAR_AWS_ARN: ${{ secrets.AWS_ARN }}
   TF_VAR_REPO: ${{ secrets.REPO }}
-  TF_IP: ${{ secrets.IP }}
+  TF_VAR_IP: ${{ secrets.IP }}
 
 jobs:
   terraform-init:
