@@ -6,10 +6,10 @@ terraform {
   }
 }
 
-module "recources" {
-  source  = "./modules/resources"
+# module "recources" {
+#   source  = "./modules/resources"
 
-  AWS_ARN = var.AWS_ARN
-  REPO    = var.REPO
-  IP      = var.IP
-}
+#   AWS_ARN = var.AWS_ARN
+#   REPO    = var.REPO
+#   IP      = var.IP
+# }
