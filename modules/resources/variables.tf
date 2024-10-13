@@ -1,11 +1,16 @@
 variable "AWS_ARN" {
-  description = "AWS ARN"
   type        = string
+  description = "AWS ARN"
 }
 
 variable "REPO" {
-  description = "Github repository"
   type        = string
+  description = "Github repository"
+}
+
+variable "IP" {
+  type        = string
+  description = "Source IP for Bastion Host"
 }
 
 variable "public_subnet_cidrs" {
@@ -24,4 +29,20 @@ variable "azs" {
  type        = list(string)
  description = "Availability Zones"
  default     = ["eu-west-1a", "eu-west-1b"]
+}
+
+variable "default_cidr" {
+ type        = string
+ default     = "0.0.0.0/0"
+}
+
+variable "bastion_ami" {
+  type        = string
+  description = "Amazon Linux 2023 AMI - Bastion Host"
+  default     = "ami-054a53dca63de757b"
+}
+
+variable "bastion_instance_type" {
+  type        = string
+  default     = "t2.micro"
 }

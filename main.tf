@@ -11,4 +11,5 @@ module "recources" {
 
   AWS_ARN = var.AWS_ARN
   REPO    = var.REPO
+  IP      = var.IP
 }
