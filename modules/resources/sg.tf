@@ -130,7 +130,7 @@ resource "aws_security_group" "private_sg" {
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
-    security_groups = [aws_security_group.bastion_sg.id]
+    cidr_blocks = [var.default_cidr]
   }
 
   egress {

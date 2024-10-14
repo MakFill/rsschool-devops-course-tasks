@@ -101,6 +101,17 @@ resource "aws_network_acl_rule" "private_inbound" {
   to_port        = 0
 }
 
+resource "aws_network_acl_rule" "private_inbound_icmp" {
+  network_acl_id = aws_network_acl.private.id
+  rule_number    = 110
+  protocol       = "icmp"
+  rule_action    = "allow"
+  egress         = false
+  cidr_block     = var.default_cidr
+  from_port      = -1
+  to_port        = -1
+}
+
 resource "aws_network_acl_rule" "private_outbound" {
   network_acl_id = aws_network_acl.private.id
   rule_number    = 100
