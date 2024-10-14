@@ -102,7 +102,7 @@ resource "aws_security_group" "bastion_sg" {
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
-    security_groups = [var.IP]
+    cidr_blocks = [var.IP]
   }
 
   egress {
@@ -117,6 +117,7 @@ resource "aws_security_group" "private_sg" {
   name          = "private-sg"
   vpc_id        = aws_vpc.main_vpc.id
   description   = "Allow internal communication within the VPC and all outbound traffic"
+  depends_on = [aws_security_group.bastion_sg]
 
   ingress {
     from_port   = 22
