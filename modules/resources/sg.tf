@@ -24,10 +24,17 @@ resource "aws_security_group" "vpc_sg" {
     cidr_blocks = [var.default_cidr]
   }
 
+  ingress {
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = [var.IP]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
-    protocol    = "-1"
+    protocol    = "all"
     cidr_blocks = [var.default_cidr]
   }
 }
@@ -40,7 +47,7 @@ resource "aws_security_group" "public_sg" {
   ingress {
     from_port   = 0
     to_port     = 0
-    protocol    = "-1"
+    protocol    = "all"
     cidr_blocks = [aws_vpc.main_vpc.cidr_block]
   }
 
@@ -65,37 +72,17 @@ resource "aws_security_group" "public_sg" {
     cidr_blocks = [var.IP]
   }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = [var.default_cidr]
-  }
-}
-
-resource "aws_security_group" "private_sg" {
-  name          = "private-sg"
-  vpc_id        = aws_vpc.main_vpc.id
-  description   = "Allow internal communication within the VPC and all outbound traffic"
-
   ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = [aws_vpc.main_vpc.cidr_block]
-  }
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    security_groups = [aws_security_group.bastion_sg.id]
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = [var.IP]
   }
 
   egress {
     from_port   = 0
     to_port     = 0
-    protocol    = "-1"
+    protocol    = "all"
     cidr_blocks = [var.default_cidr]
   }
 }
@@ -111,10 +98,46 @@ resource "aws_security_group" "bastion_sg" {
     description = "Allow SSH access from particular IP" 
   }
 
+  ingress {
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = [var.IP]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
-    protocol    = "tcp"
+    protocol    = "all"
     cidr_blocks = [var.default_cidr]
   }
 }
+
+resource "aws_security_group" "private_sg" {
+  name          = "private-sg"
+  vpc_id        = aws_vpc.main_vpc.id
+  description   = "Allow internal communication within the VPC and all outbound traffic"
+  depends_on = [aws_security_group.bastion_sg]
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    security_groups = [aws_security_group.bastion_sg.id]
+  }
+
+  ingress {
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = [var.default_cidr]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "all"
+    cidr_blocks = [var.default_cidr]
+  }
+}
+

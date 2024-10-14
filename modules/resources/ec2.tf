@@ -9,3 +9,16 @@ resource "aws_instance" "private_instance" {
     Name = "Example ec2 instance to connect with Bastion Host"
   }
 }
+
+resource "aws_instance" "public_instance" {
+  ami = var.bastion_ami
+  instance_type = var.bastion_instance_type
+  subnet_id = aws_subnet.public_subnets[1].id
+  vpc_security_group_ids = [aws_security_group.public_sg.id]
+  key_name = var.key_pair
+  associate_public_ip_address = true
+  
+  tags = {
+    Name = "Public Example instance"
+  }
+}
