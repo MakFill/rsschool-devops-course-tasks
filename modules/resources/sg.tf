@@ -125,10 +125,17 @@ resource "aws_security_group" "bastion_sg" {
     description = "Allow SSH access from particular IP" 
   }
 
+  ingress {
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    security_groups = [var.IP]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
-    protocol    = "tcp"
+    protocol    = "all"
     cidr_blocks = [var.default_cidr]
   }
 }
