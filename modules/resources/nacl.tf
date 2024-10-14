@@ -31,7 +31,7 @@ resource "aws_network_acl_rule" "public_inbound_https" {
 resource "aws_network_acl_rule" "public_inbound_all_internal" {
   network_acl_id = aws_network_acl.public.id
   rule_number    = 120
-  protocol       = "-1"
+  protocol       = "all"
   rule_action    = "allow"
   egress         = false
   cidr_block     = aws_vpc.main_vpc.cidr_block
@@ -50,11 +50,32 @@ resource "aws_network_acl_rule" "public_inbound_ssh" {
   to_port        = 22
 }
 
-# Egress rules for public NACL
+resource "aws_network_acl_rule" "public_inbound_icmp" {
+  network_acl_id = aws_network_acl.public.id
+  rule_number    = 140
+  protocol       = "icmp"
+  rule_action    = "allow"
+  egress         = false
+  cidr_block     = var.default_cidr
+  from_port      = -1
+  to_port        = -1
+}
+
+resource "aws_network_acl_rule" "public_inbound_ephemeral" {
+  network_acl_id = aws_network_acl.public.id
+  rule_number    = 150
+  egress         = false
+  protocol       = "tcp"
+  rule_action    = "allow"
+  cidr_block     = var.default_cidr
+  from_port      = 1024
+  to_port        = 65535
+}
+
 resource "aws_network_acl_rule" "public_outbound" {
   network_acl_id = aws_network_acl.public.id
   rule_number    = 100
-  protocol       = "-1"
+  protocol       = "all"
   rule_action    = "allow"
   egress         = true
   cidr_block     = var.default_cidr
@@ -72,7 +93,7 @@ resource "aws_network_acl" "private" {
 resource "aws_network_acl_rule" "private_inbound" {
   network_acl_id = aws_network_acl.private.id
   rule_number    = 100
-  protocol       = "-1"
+  protocol       = "all"
   rule_action    = "allow"
   egress         = false
   cidr_block     = aws_vpc.main_vpc.cidr_block
@@ -83,7 +104,7 @@ resource "aws_network_acl_rule" "private_inbound" {
 resource "aws_network_acl_rule" "private_outbound" {
   network_acl_id = aws_network_acl.private.id
   rule_number    = 100
-  protocol       = "-1"
+  protocol       = "all"
   rule_action    = "allow"
   egress         = true
   cidr_block     = var.default_cidr
