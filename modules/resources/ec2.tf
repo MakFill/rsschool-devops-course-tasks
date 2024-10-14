@@ -16,6 +16,7 @@ resource "aws_instance" "public_instance" {
   subnet_id = aws_subnet.public_subnets[1].id
   vpc_security_group_ids = [aws_security_group.public_sg.id]
   key_name = var.key_pair
+  associate_public_ip_address = true
   
   tags = {
     Name = "Public Example instance"
