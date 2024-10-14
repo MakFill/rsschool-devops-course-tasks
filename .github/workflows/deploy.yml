@@ -5,6 +5,7 @@ on:
     branches: ['main']
   pull_request:
     branches: ['main']
+  workflow_dispatch:
 
 permissions:
   id-token: write
@@ -14,6 +15,7 @@ env:
   AWS_ARN: ${{ secrets.AWS_ARN }}
   TF_VAR_AWS_ARN: ${{ secrets.AWS_ARN }}
   TF_VAR_REPO: ${{ secrets.REPO }}
+  TF_VAR_IP: ${{ secrets.IP }}
 
 jobs:
   terraform-init:
