@@ -35,7 +35,7 @@ module "bastion_host" {
   ec2_ami             = var.ec2_ami
   ec2_instance_type   = var.ec2_instance_type
   key_pair            = var.key_pair
-  public_subnet_id    = module.vpc.public_subnet_0_id
+  public_subnet_id    = module.vpc.public_subnet_1_id
   bastion_sg_id       = module.sg.bastion_sg_id
 }
 
