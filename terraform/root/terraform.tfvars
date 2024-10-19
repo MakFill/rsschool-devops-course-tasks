@@ -1,0 +1,5 @@
+region            = "eu-west-1"
+default_cidr      = "0.0.0.0/0"
+ec2_ami           = "ami-054a53dca63de757b"
+ec2_instance_type = "t2.micro"
+key_pair          = "my-test-key-pair"
