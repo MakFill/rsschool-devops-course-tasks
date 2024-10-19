@@ -10,3 +10,11 @@ variable "ec2_instance_type" {
 variable "key_pair" {
   type        = string
 }
+
+variable "public_subnet_id" {
+  type        = string
+}
+
+variable "bastion_sg_id" {
+  type        = string
+}

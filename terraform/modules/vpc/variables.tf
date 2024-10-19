@@ -8,7 +8,7 @@ variable "default_cidr" {
 }
 
 variable "IP" {
-  type        = string
+  type       = string
 }
 
 variable "public_subnet_cidrs" {

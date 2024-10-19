@@ -1,7 +1,7 @@
 variable "AWS_ARN" {
-  type        = string
+  type = string
 }
 
 variable "REPO" {
-  type        = string
+  type = string
 }

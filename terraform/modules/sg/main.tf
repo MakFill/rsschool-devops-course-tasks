@@ -1,6 +1,6 @@
 resource "aws_security_group" "vpc_sg" {
   name          = "vpc_sg"
-  vpc_id        = aws_vpc.main_vpc.id
+  vpc_id        = var.main_vpc_id
   description   = "Allow internet access"
 
   ingress {
@@ -41,14 +41,14 @@ resource "aws_security_group" "vpc_sg" {
 
 resource "aws_security_group" "public_sg" {
   name          = "public_sg"
-  vpc_id        = aws_vpc.main_vpc.id
+  vpc_id        = var.main_vpc_id
   description   = "Allow internal VPC traffic and internet access"
 
   ingress {
     from_port   = 0
     to_port     = 0
     protocol    = "all"
-    cidr_blocks = [aws_vpc.main_vpc.cidr_block]
+    cidr_blocks = [var.main_vpc_cidr_block]
   }
 
   ingress {
@@ -88,7 +88,7 @@ resource "aws_security_group" "public_sg" {
 }
 
 resource "aws_security_group" "bastion_sg" {
-  vpc_id        = aws_vpc.main_vpc.id
+  vpc_id        = var.main_vpc_id
 
   ingress {
     from_port   = 22
@@ -115,7 +115,7 @@ resource "aws_security_group" "bastion_sg" {
 
 resource "aws_security_group" "private_sg" {
   name          = "private-sg"
-  vpc_id        = aws_vpc.main_vpc.id
+  vpc_id        = var.main_vpc_id
   description   = "Allow internal communication within the VPC and all outbound traffic"
   depends_on = [aws_security_group.bastion_sg]
 

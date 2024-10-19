@@ -1,8 +1,8 @@
 resource "aws_instance" "private_instance" {
-  ami = var.ec2_ami
-  instance_type = var.ec2_instance_type
-  subnet_id = aws_subnet.private_subnets[0].id
-  vpc_security_group_ids = [aws_security_group.private_sg.id]
+  ami                         = var.ec2_ami
+  instance_type               = var.ec2_instance_type
+  subnet_id                   = var.private_subnet_id
+  vpc_security_group_ids      = [var.private_sg_id]
   key_name = var.key_pair
   
   tags = {
@@ -11,11 +11,11 @@ resource "aws_instance" "private_instance" {
 }
 
 resource "aws_instance" "public_instance" {
-  ami = var.ec2_ami
-  instance_type = var.ec2_instance_type
-  subnet_id = aws_subnet.public_subnets[1].id
-  vpc_security_group_ids = [aws_security_group.public_sg.id]
-  key_name = var.key_pair
+  ami                         = var.ec2_ami
+  instance_type               = var.ec2_instance_type
+  subnet_id                   = var.public_subnet_id
+  vpc_security_group_ids      = [var.public_sg_id]
+  key_name                    = var.key_pair
   associate_public_ip_address = true
   
   tags = {
