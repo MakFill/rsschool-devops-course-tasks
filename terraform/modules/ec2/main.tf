@@ -1,6 +1,6 @@
 resource "aws_instance" "private_instance" {
-  ami = var.bastion_ami
-  instance_type = var.bastion_instance_type
+  ami = var.ec2_ami
+  instance_type = var.ec2_instance_type
   subnet_id = aws_subnet.private_subnets[0].id
   vpc_security_group_ids = [aws_security_group.private_sg.id]
   key_name = var.key_pair
@@ -11,8 +11,8 @@ resource "aws_instance" "private_instance" {
 }
 
 resource "aws_instance" "public_instance" {
-  ami = var.bastion_ami
-  instance_type = var.bastion_instance_type
+  ami = var.ec2_ami
+  instance_type = var.ec2_instance_type
   subnet_id = aws_subnet.public_subnets[1].id
   vpc_security_group_ids = [aws_security_group.public_sg.id]
   key_name = var.key_pair

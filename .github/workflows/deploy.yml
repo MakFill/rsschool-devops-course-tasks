@@ -21,6 +21,10 @@ jobs:
   terraform-init:
     name: Terraform init
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: terraform/root
 
     steps:
       - uses: actions/checkout@v4
