@@ -3,5 +3,6 @@ resource "aws_vpc" "main_vpc" {
 }
 
 resource "aws_internet_gateway" "igw" {
+  depends_on = [aws_eip.nat_eip]
   vpc_id = aws_vpc.main_vpc.id
 }
