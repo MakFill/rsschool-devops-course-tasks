@@ -134,6 +134,17 @@ resource "aws_network_acl_rule" "private_inbound_https" {
   to_port        = 443
 }
 
+resource "aws_network_acl_rule" "private_inbound_ephemeral" {
+  network_acl_id = aws_network_acl.private.id
+  rule_number    = 140
+  protocol       = "tcp"
+  rule_action    = "allow"
+  egress         = false
+  cidr_block     = var.default_cidr
+  from_port      = 1024
+  to_port        = 65535
+}
+
 resource "aws_network_acl_rule" "private_outbound" {
   network_acl_id = aws_network_acl.private.id
   rule_number    = 100
