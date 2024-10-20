@@ -46,7 +46,8 @@ module "ec2" {
   ec2_instance_type   = var.ec2_instance_type
   key_pair            = var.key_pair
   public_subnet_id    = module.vpc.public_subnet_2_id
-  private_subnet_id   = module.vpc.private_subnet_1_id
+  private_subnet_1_id = module.vpc.private_subnet_1_id
+  private_subnet_2_id = module.vpc.private_subnet_2_id
   public_sg_id        = module.sg.public_sg_id
   private_sg_id       = module.sg.private_sg_id
 }
