@@ -6,7 +6,7 @@ resource "aws_instance" "private_instance_1" {
   key_name = var.key_pair
   
   tags = {
-    Name = "Private instance 1"
+    Name = "k3s server"
   }
 }
 
@@ -18,7 +18,7 @@ resource "aws_instance" "private_instance_2" {
   key_name = var.key_pair
   
   tags = {
-    Name = "Private instance 2"
+    Name = "k3s agent"
   }
 }
 

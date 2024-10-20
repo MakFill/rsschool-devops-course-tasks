@@ -112,9 +112,16 @@ resource "aws_security_group" "private_sg" {
     cidr_blocks = [var.default_cidr]
   }
 
-    ingress {
+  ingress {
     from_port   = 6443
     to_port     = 6443
+    protocol    = "tcp"
+    cidr_blocks = [var.main_vpc_cidr_block]
+  }
+
+  ingress {
+    from_port   = 10250
+    to_port     = 10250
     protocol    = "tcp"
     cidr_blocks = [var.main_vpc_cidr_block]
   }
