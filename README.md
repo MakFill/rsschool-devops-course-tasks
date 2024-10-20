@@ -15,27 +15,28 @@ This template allows you to configure and deploy AWS VPC infrastructure via GitH
 **To configure and create a Kubernetes (K8s) cluster:**
 
 1. SSH into the Bastion Host via SSH (Github secret ID cidr block should be setted to allow your ID).
-
-2. SSH into your K3s server instance:
+    - `ssh -i "your-key.pem" ec2-user@<BASTION_HOST_PUBLIC_IP>`.
+   
+3. SSH into your K3s server instance:
     - `ssh -i "your-key.pem" ec2-user@<K3s_SERVER_PRIVATE_IP>`.
 
-3. Install K3s:
+4. Install K3s:
     - `curl -sfL https://get.k3s.io | sh -`.
 
-4. Get the K3s token and save it for later use:
+5. Get the K3s token and save it for later use:
     - `sudo cat /var/lib/rancher/k3s/server/node-token`.
 
-5. To verify K3s is running, you can check the nodes:
+6. To verify K3s is running, you can check the nodes:
     - `sudo k3s kubectl get nodes`.
 
-6. SSH into your K3s agent instance:
+7. SSH into your K3s agent instance:
     - `ssh -i "your-key.pem" ec2-user@<K3s_AGENT_PRIVATE_IP>`.
 
-7. Install K3s agent:
+8. Install K3s agent:
     - Use the following command, replacing <K3s_SERVER_IP> with the public or private IP of your K3s server and <NODE_TOKEN> with the token obtained in the previous step.
       `curl -sfL https://get.k3s.io | K3S_URL=https://<K3s_SERVER_IP>:6443 K3S_TOKEN=<NODE_TOKEN> sh -`.
 
-8. Verify the Setup:
+9. Verify the Setup:
     - Back to your K3s server instance, run: `sudo k3s kubectl get nodes`. You should see both the K3s server and the agent listed.
 
 **To deploy a simple workload on the cluster:**
