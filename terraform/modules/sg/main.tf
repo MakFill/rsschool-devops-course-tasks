@@ -136,7 +136,7 @@ resource "aws_security_group" "private_sg" {
     ingress {
     from_port   = 6443
     to_port     = 6443
-    protocol    = "tsp"
+    protocol    = "tcp"
     cidr_blocks = [var.default_cidr]
   }
 
