@@ -72,6 +72,18 @@ resource "aws_network_acl_rule" "public_inbound_ephemeral" {
   to_port        = 65535
 }
 
+
+resource "aws_network_acl_rule" "public_inbound_SOCKS" {
+  network_acl_id = aws_network_acl.public.id
+  rule_number    = 160
+  protocol       = "tcp"
+  rule_action    = "allow"
+  egress         = false
+  cidr_block     = var.default_cidr
+  from_port      = 1080
+  to_port        = 1080
+}
+
 resource "aws_network_acl_rule" "public_outbound" {
   network_acl_id = aws_network_acl.public.id
   rule_number    = 100
@@ -143,6 +155,18 @@ resource "aws_network_acl_rule" "private_inbound_ephemeral" {
   cidr_block     = var.default_cidr
   from_port      = 1024
   to_port        = 65535
+}
+
+
+resource "aws_network_acl_rule" "private_inbound_SOCKS" {
+  network_acl_id = aws_network_acl.private.id
+  rule_number    = 150
+  protocol       = "tcp"
+  rule_action    = "allow"
+  egress         = false
+  cidr_block     = var.default_cidr
+  from_port      = 1080
+  to_port        = 1080
 }
 
 resource "aws_network_acl_rule" "private_outbound" {

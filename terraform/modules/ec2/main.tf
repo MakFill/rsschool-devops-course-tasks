@@ -5,6 +5,8 @@ resource "aws_instance" "private_instance_1" {
   vpc_security_group_ids      = [var.private_sg_id]
   key_name = var.key_pair
   
+  user_data = templatefile("${path.module}/templates/server_user_data.sh", {})
+
   tags = {
     Name = "k3s server"
   }
