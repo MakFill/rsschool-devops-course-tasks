@@ -58,6 +58,35 @@ resource "aws_security_group" "public_sg" {
     cidr_blocks = [var.IP]
   }
 
+    ingress {
+    from_port       = 1080
+    to_port         = 1080
+    protocol        = "tcp"
+    security_groups = [aws_security_group.bastion_sg.id]
+    description     = "Allow SOCKS proxy" 
+  }
+
+  ingress {
+    from_port       = 6443
+    to_port         = 6443
+    protocol        = "tcp"
+    cidr_blocks     = [var.IP]
+  }
+
+  ingress {
+    from_port       = 10250
+    to_port         = 10250
+    protocol        = "tcp"
+    cidr_blocks     = [var.IP]
+  }
+
+  ingress {
+    from_port       = 8472
+    to_port         = 8472
+    protocol        = "udp"
+    cidr_blocks     = [var.default_cidr]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0

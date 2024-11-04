@@ -29,25 +29,26 @@ module "iam" {
   REPO                = var.REPO
 }
 
-module "bastion_host" {
-  source              = "../modules/bastion_host"
+# module "bastion_host" {
+#   source              = "../modules/bastion_host"
 
-  ec2_ami             = var.ec2_ami
-  ec2_instance_type   = var.ec2_instance_type
-  key_pair            = var.key_pair
-  public_subnet_id    = module.vpc.public_subnet_1_id
-  bastion_sg_id       = module.sg.bastion_sg_id
-}
+#   ec2_ami             = var.ec2_ami
+#   ec2_instance_type   = var.ec2_instance_type
+#   key_pair            = var.key_pair
+#   public_subnet_id    = module.vpc.public_subnet_1_id
+#   bastion_sg_id       = module.sg.bastion_sg_id
+# }
 
 module "ec2" {
-  source              = "../modules/ec2"
+  source                  = "../modules/ec2"
 
-  ec2_ami             = var.ec2_ami
-  ec2_instance_type   = var.ec2_instance_type
-  key_pair            = var.key_pair
-  public_subnet_id    = module.vpc.public_subnet_2_id
-  private_subnet_1_id = module.vpc.private_subnet_1_id
-  private_subnet_2_id = module.vpc.private_subnet_2_id
-  public_sg_id        = module.sg.public_sg_id
-  private_sg_id       = module.sg.private_sg_id
+  ec2_ami                 = var.ec2_ami
+  ec2_instance_type       = var.ec2_instance_type
+  ec2_instance_type_small = var.ec2_instance_type_small
+  key_pair                = var.key_pair
+  public_subnet_id        = module.vpc.public_subnet_2_id
+  private_subnet_1_id     = module.vpc.private_subnet_1_id
+  private_subnet_2_id     = module.vpc.private_subnet_2_id
+  public_sg_id            = module.sg.public_sg_id
+  private_sg_id           = module.sg.private_sg_id
 }

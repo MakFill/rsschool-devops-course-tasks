@@ -6,6 +6,10 @@ variable "ec2_instance_type" {
   type = string
 }
 
+variable "ec2_instance_type_small" {
+  type = string
+}
+
 variable "key_pair" {
   type = string
 }
