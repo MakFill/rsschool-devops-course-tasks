@@ -4,31 +4,10 @@ resource "aws_security_group" "vpc_sg" {
   description   = "Allow internet access"
 
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = [var.IP]
-  }
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "all"
     cidr_blocks = [var.default_cidr]
-  }
-
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = [var.default_cidr]
-  }
-
-  ingress {
-    from_port   = -1
-    to_port     = -1
-    protocol    = "icmp"
-    cidr_blocks = [var.IP]
   }
 
   egress {
@@ -79,6 +58,35 @@ resource "aws_security_group" "public_sg" {
     cidr_blocks = [var.IP]
   }
 
+    ingress {
+    from_port       = 1080
+    to_port         = 1080
+    protocol        = "tcp"
+    security_groups = [aws_security_group.bastion_sg.id]
+    description     = "Allow SOCKS proxy" 
+  }
+
+  ingress {
+    from_port       = 6443
+    to_port         = 6443
+    protocol        = "tcp"
+    cidr_blocks     = [var.IP]
+  }
+
+  ingress {
+    from_port       = 10250
+    to_port         = 10250
+    protocol        = "tcp"
+    cidr_blocks     = [var.IP]
+  }
+
+  ingress {
+    from_port       = 8472
+    to_port         = 8472
+    protocol        = "udp"
+    cidr_blocks     = [var.default_cidr]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -99,10 +107,34 @@ resource "aws_security_group" "bastion_sg" {
   }
 
   ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = [var.IP]
+    description = "Allow HTTPS access from particular IP" 
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = [var.IP]
+    description = "Allow HTTPS access from particular IP" 
+  }
+
+  ingress {
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
     cidr_blocks = [var.IP]
+  }
+
+  ingress {
+    from_port   = 1080
+    to_port     = 1080
+    protocol    = "tcp"
+    cidr_blocks = [var.IP]
+    description = "Allow SOCKS proxy" 
   }
 
   egress {
@@ -114,23 +146,45 @@ resource "aws_security_group" "bastion_sg" {
 }
 
 resource "aws_security_group" "private_sg" {
-  name          = "private-sg"
-  vpc_id        = var.main_vpc_id
-  description   = "Allow internal communication within the VPC and all outbound traffic"
-  depends_on = [aws_security_group.bastion_sg]
+  name              = "private-sg"
+  vpc_id            = var.main_vpc_id
+  description       = "Allow internal communication within the VPC and all outbound traffic"
+  depends_on        = [aws_security_group.bastion_sg]
 
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
     security_groups = [aws_security_group.bastion_sg.id]
   }
 
   ingress {
-    from_port   = -1
-    to_port     = -1
-    protocol    = "icmp"
-    cidr_blocks = [var.default_cidr]
+    from_port       = 1080
+    to_port         = 1080
+    protocol        = "tcp"
+    security_groups = [aws_security_group.bastion_sg.id]
+    description     = "Allow SOCKS proxy" 
+  }
+
+  ingress {
+    from_port       = -1
+    to_port         = -1
+    protocol        = "icmp"
+    cidr_blocks     = [var.default_cidr]
+  }
+
+  ingress {
+    from_port   = 6443
+    to_port     = 6443
+    protocol    = "tcp"
+    cidr_blocks = [var.main_vpc_cidr_block]
+  }
+
+  ingress {
+    from_port   = 10250
+    to_port     = 10250
+    protocol    = "tcp"
+    cidr_blocks = [var.main_vpc_cidr_block]
   }
 
   egress {
